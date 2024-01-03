@@ -77,6 +77,82 @@ The project's focus on PHP and HTML forms expanded technical knowledge, enabling
 
 In conclusion, the "Student Mentor Connect" project was transformative, enhancing the learning environment through personalized connections. The collaborative effort broadened understanding of database systems and provided practical skills for real-world applications.
 
-## Appendices
 
-This README includes a PHP code snippet for handling student mentor requests and references key resources such as W3Schools and the Mozilla Developer Network.
+<?php
+include('../server.php');
+
+try {
+
+    $register = $_POST['Register'];
+    echo $register;
+    if (isset($register)) {
+    $submitname = 'course_registration_actions';
+    $submitname .= $register;
+    echo $submitname;
+
+    if (isset($_POST[$submitname])) {
+        $Course_ID = $_POST['Register'];
+        $domain_approved = "pending"; // Corrected variable name
+        $R_number = $_SESSION["R_number"];
+        echo $R_number;
+        $sql = "SELECT * FROM courses where Course_ID = $Course_ID";
+        $result = mysqli_query($db, $sql);
+        $numberofcourse_per_student = "SELECT count(Course_ID) as sak FROM course_approval where R_Number= '$R_number' and (Domain_Approval='pending'or Domain_Approval='Approved' )";
+        $result2 = mysqli_query($db, $numberofcourse_per_student);
+        if (!$result) {
+            throw new Exception("Error in database query: " . mysqli_error($db));
+        }
+
+        $row = mysqli_fetch_assoc($result);
+        $row2 = mysqli_fetch_assoc($result2);
+
+        if (!$row) {
+            throw new Exception("No record found for Course ID: $Course_ID");
+        }
+
+        if ($row2['sak'] <= 2) {
+       
+            $sql2 = "INSERT INTO course_approval  VALUES ('$R_number','$Course_ID','$domain_approved')";
+            if (mysqli_query($db, $sql2)) {
+
+                header('location: ../student_course_registration.php');
+            } else {
+     
+                throw new Exception("Error inserting data: " . mysqli_error($db));
+            }
+        } else {
+            throw new Exception("You can only register upto 3 courses ");
+        }
+    }
+}
+else{
+    throw new Exception("Please select the course you want to register");
+}
+
+} 
+
+catch (Exception $e) {
+    // Handle exceptions here
+    echo "exception";
+    echo "<script>alert('Caught exception: " . $e->getMessage() . "'); 
+    window.location.href='../student_course_registration.php';</script>";
+
+}
+
+?>
+
+
+
+![image](https://github.com/sakethvardhineni/studentconnect/assets/132186396/4c22afa1-2085-4e7a-909a-9ac37e2d79aa)
+
+
+
+ 
+This is the course registration page.
+ ## References
+
+W3Schools. (2022). PHP Tutorial. Retrieved from https://www.w3schools.com/php/.
+W3Schools. (2022). HTML Tutorial. Retrieved from https://www.w3schools.com/html/.
+Mozilla Developer Network. (2022). CSS Selectors. Retrieved from https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors.
+The project benefitted from insights gained from 'Database Systems: The Complete Book' by Hector Garcia-Molina, Jeffrey D. Ullman, and Jennifer Widom. The book provided valuable guidance on database design principles and implementation strategies. Particularly, Chapter 3 offered insights into achieving third normal form (3NF), enhancing our understanding of relational database normalization, and Chapter 9 contributed to our understanding of [focusing on JDBC and PHP.
+
