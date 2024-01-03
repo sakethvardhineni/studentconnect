@@ -78,6 +78,11 @@ The project's focus on PHP and HTML forms expanded technical knowledge, enabling
 In conclusion, the "Student Mentor Connect" project was transformative, enhancing the learning environment through personalized connections. The collaborative effort broadened understanding of database systems and provided practical skills for real-world applications.
 
 
+## Course Registration PHP Script
+
+This PHP script handles the action taken after a student submits a mentor request. It incorporates validation to ensure that if a student clicks 'Submit' without selecting a course, an error message pops up, prompting them to choose a course for registration. Additionally, the code restricts students from selecting more than three courses. If a mentor rejects a course, the student is prevented from requesting that particular course again.
+
+```php
 <?php
 include('../server.php');
 
@@ -86,59 +91,53 @@ try {
     $register = $_POST['Register'];
     echo $register;
     if (isset($register)) {
-    $submitname = 'course_registration_actions';
-    $submitname .= $register;
-    echo $submitname;
+        $submitname = 'course_registration_actions';
+        $submitname .= $register;
+        echo $submitname;
 
-    if (isset($_POST[$submitname])) {
-        $Course_ID = $_POST['Register'];
-        $domain_approved = "pending"; // Corrected variable name
-        $R_number = $_SESSION["R_number"];
-        echo $R_number;
-        $sql = "SELECT * FROM courses where Course_ID = $Course_ID";
-        $result = mysqli_query($db, $sql);
-        $numberofcourse_per_student = "SELECT count(Course_ID) as sak FROM course_approval where R_Number= '$R_number' and (Domain_Approval='pending'or Domain_Approval='Approved' )";
-        $result2 = mysqli_query($db, $numberofcourse_per_student);
-        if (!$result) {
-            throw new Exception("Error in database query: " . mysqli_error($db));
-        }
-
-        $row = mysqli_fetch_assoc($result);
-        $row2 = mysqli_fetch_assoc($result2);
-
-        if (!$row) {
-            throw new Exception("No record found for Course ID: $Course_ID");
-        }
-
-        if ($row2['sak'] <= 2) {
-       
-            $sql2 = "INSERT INTO course_approval  VALUES ('$R_number','$Course_ID','$domain_approved')";
-            if (mysqli_query($db, $sql2)) {
-
-                header('location: ../student_course_registration.php');
-            } else {
-     
-                throw new Exception("Error inserting data: " . mysqli_error($db));
+        if (isset($_POST[$submitname])) {
+            $Course_ID = $_POST['Register'];
+            $domain_approved = "pending"; // Corrected variable name
+            $R_number = $_SESSION["R_number"];
+            echo $R_number;
+            $sql = "SELECT * FROM courses where Course_ID = $Course_ID";
+            $result = mysqli_query($db, $sql);
+            $numberofcourse_per_student = "SELECT count(Course_ID) as sak FROM course_approval where R_Number= '$R_number' and (Domain_Approval='pending'or Domain_Approval='Approved' )";
+            $result2 = mysqli_query($db, $numberofcourse_per_student);
+            if (!$result) {
+                throw new Exception("Error in database query: " . mysqli_error($db));
             }
-        } else {
-            throw new Exception("You can only register upto 3 courses ");
+
+            $row = mysqli_fetch_assoc($result);
+            $row2 = mysqli_fetch_assoc($result2);
+
+            if (!$row) {
+                throw new Exception("No record found for Course ID: $Course_ID");
+            }
+
+            if ($row2['sak'] <= 2) {
+
+                $sql2 = "INSERT INTO course_approval  VALUES ('$R_number','$Course_ID','$domain_approved')";
+                if (mysqli_query($db, $sql2)) {
+
+                    header('location: ../student_course_registration.php');
+                } else {
+
+                    throw new Exception("Error inserting data: " . mysqli_error($db));
+                }
+            } else {
+                throw new Exception("You can only register up to 3 courses ");
+            }
         }
+    } else {
+        throw new Exception("Please select the course you want to register");
     }
-}
-else{
-    throw new Exception("Please select the course you want to register");
-}
-
-} 
-
-catch (Exception $e) {
+} catch (Exception $e) {
     // Handle exceptions here
     echo "exception";
     echo "<script>alert('Caught exception: " . $e->getMessage() . "'); 
     window.location.href='../student_course_registration.php';</script>";
-
 }
-
 ?>
 
 
