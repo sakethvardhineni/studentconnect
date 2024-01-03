@@ -140,7 +140,7 @@ try {
 }
 ?>
 
-
+```
 
 ![image](https://github.com/sakethvardhineni/studentconnect/assets/132186396/4c22afa1-2085-4e7a-909a-9ac37e2d79aa)
 
