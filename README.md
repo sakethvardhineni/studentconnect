@@ -148,10 +148,16 @@ try {
 
  
 This is the course registration page.
+
+
  ## References
 
-W3Schools. (2022). PHP Tutorial. Retrieved from https://www.w3schools.com/php/.
-W3Schools. (2022). HTML Tutorial. Retrieved from https://www.w3schools.com/html/.
-Mozilla Developer Network. (2022). CSS Selectors. Retrieved from https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors.
-The project benefitted from insights gained from 'Database Systems: The Complete Book' by Hector Garcia-Molina, Jeffrey D. Ullman, and Jennifer Widom. The book provided valuable guidance on database design principles and implementation strategies. Particularly, Chapter 3 offered insights into achieving third normal form (3NF), enhancing our understanding of relational database normalization, and Chapter 9 contributed to our understanding of [focusing on JDBC and PHP.
+- W3Schools PHP Tutorial: [Link](https://www.w3schools.com/php/)
+- W3Schools HTML Tutorial: [Link](https://www.w3schools.com/html/)
+- Mozilla Developer Network CSS Selectors: [Link](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors)
+
+The project benefited from insights gained from 'Database Systems: The Complete Book' by Hector Garcia-Molina, Jeffrey D. Ullman, and Jennifer Widom. The book provided valuable guidance on database design principles and implementation strategies. Particularly, Chapter 3 offered insights into achieving third normal form (3NF), enhancing our understanding of relational database normalization, and Chapter 9 contributed to our understanding of [focusing on JDBC and PHP.
+
+
+
 
